@@ -10,9 +10,12 @@ import SwiftData
 
 @main
 struct Time_TrackerApp: App {
-    var sharedModelContainer: ModelContainer = {
+    private var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            Item.self,
+            Client.self,
+            Project.self,
+            Interval.self,
+            WorkPeriod.self
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
@@ -22,11 +25,19 @@ struct Time_TrackerApp: App {
             fatalError("Could not create ModelContainer: \(error)")
         }
     }()
+    
+    @State private var navigationContext = NavigationContext()
 
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environment(navigationContext)
         }
         .modelContainer(sharedModelContainer)
+#if os(macOS)
+        .commands {
+            SidebarCommands()
+        }
+#endif
     }
 }
