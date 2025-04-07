@@ -32,6 +32,24 @@ private struct ProjectDetailContentView: View {
                 .font(.title)
                 .padding()
 
+            HStack {
+                VStack(alignment: .leading) {
+                    Text("Unbilled time").font(.headline)
+
+                    Text(
+                        project.unbilledTime,
+                        format: .units(
+                            allowed: [.hours, .minutes],
+                            width: .narrow,
+                            zeroValueUnits: .show(length: 2)
+                        )
+                    )
+                }
+
+                Spacer()
+            }
+            .padding()
+
             ProjectTabView(project: project)
         }
     }
