@@ -14,8 +14,7 @@ struct Time_TrackerApp: App {
         let schema = Schema([
             Client.self,
             Project.self,
-            Interval.self,
-            WorkPeriod.self
+            TimingSession.self
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
