@@ -11,31 +11,76 @@ import SwiftData
 @Model
 final class TimingSession {
     var project: Project
-
+    
     var startedAt: Date
     var stoppedAt: Date?
-
+    
+    var invoicedDuration: Duration
+    
     var isRunning: Bool {
         stoppedAt == nil
     }
-
+    
+    var isUnbilled: Bool {
+        unbilledDuration > Duration.zero
+    }
+    
     var duration: Duration {
-        let interval = if let stoppedAt {
+        let interval =
+        if let stoppedAt {
             DateInterval(start: startedAt, end: stoppedAt)
         } else {
-            DateInterval(start: startedAt, end: Date())
+            DateInterval(start: startedAt, end: Date.now)
         }
         return Duration.seconds(interval.duration)
     }
-
-    init(project: Project, startedAt: Date) {
+    
+    var unbilledDuration: Duration {
+        duration - invoicedDuration
+    }
+    
+    var description: String {
+        "Started: \(startedAt), stopped: \(String(describing: stoppedAt))"
+    }
+    
+    init(
+        project: Project,
+        startedAt: Date,
+        stoppedAt: Date? = nil,
+        invoicedDuration: Duration = Duration.zero
+    ) {
         self.project = project
         self.startedAt = startedAt
+        self.stoppedAt = stoppedAt
+        self.invoicedDuration = invoicedDuration
     }
-
+    
     func stop() {
-        self.stoppedAt = Date()
+        guard stoppedAt == nil else {
+            return
+        }
+        self.stoppedAt = Date.now
+    }
+    
+    // Returns what remains of the given duration after invoicing as much as possible
+    func invoiceDuration(_ durationToInvoice: Duration) -> Result<Duration, TimingSessionError> {
+        guard !isRunning else {
+            return .failure(.stillRunning)
+        }
+        if durationToInvoice <= unbilledDuration {
+            invoicedDuration += durationToInvoice
+            return .success(Duration.zero)
+        } else {
+            let difference = durationToInvoice - unbilledDuration
+            invoicedDuration = duration
+            return .success(difference)
+        }
     }
 }
 
 extension TimingSession: Identifiable {}
+
+enum TimingSessionError: Error {
+    case invoiceDurationExceedsUnbilledDuration
+    case stillRunning
+}
