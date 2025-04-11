@@ -42,27 +42,52 @@ final class Project {
         }
 
         let invoice = Invoice(self, time: time)
-        updateInvoicedTimingSessions(Duration.seconds(time))
-        invoices.append(invoice)
-        return .success(invoice)
+        switch updateTimingSessions(Duration.seconds(time)) {
+        case .success(()):
+            invoices.append(invoice)
+            return .success(invoice)
+        case .failure(let err):
+            return .failure(err)
+        }
+
     }
 
-    private func updateInvoicedTimingSessions(_ duration: Duration) {
+    private func updateTimingSessions(_ duration: Duration) -> Result<
+        (), ProjectError
+    > {
         var duration = duration
 
-        // TODO: Figure out how to roll back any changes, if a session returns a failure.
+        var changes: [TimingSession: Duration] = [:]
+
         for session in unbilledTimingSessions {
-            guard !session.isRunning else { return }
+            guard !session.isRunning else { break }
 
             switch session.invoiceDuration(duration) {
             case .success(let remainingDuration):
-                if remainingDuration == Duration.zero {
-                    return
-                }
+                changes.updateValue(
+                    duration - remainingDuration,
+                    forKey: session
+                )
                 duration = remainingDuration
+                if remainingDuration == Duration.zero {
+                    break
+                }
             case .failure(_):
-                return
+                break
             }
+        }
+
+        if duration == .zero {
+            return .success(())
+        } else {
+            revertInvoicing(changes: changes)
+            return .failure(.invoicingFailed)
+        }
+    }
+
+    private func revertInvoicing(changes: [TimingSession: Duration]) {
+        changes.reversed().forEach { (session, duration) in
+            _ = session.invoiceDuration(duration * -1)
         }
     }
 }
