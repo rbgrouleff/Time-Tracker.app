@@ -46,8 +46,18 @@ final class TimingSession {
     init(
         project: Project,
         startedAt: Date,
-        stoppedAt: Date? = nil,
-        invoicedDuration: Duration = Duration.zero
+    ) {
+        self.project = project
+        self.startedAt = startedAt
+        self.stoppedAt = nil
+        self.invoicedDuration = Duration.zero
+    }
+    
+    init(
+        project: Project,
+        startedAt: Date,
+        stoppedAt: Date,
+        invoicedDuration: Duration
     ) {
         self.project = project
         self.startedAt = startedAt
@@ -78,7 +88,7 @@ final class TimingSession {
     }
 }
 
-extension TimingSession: Identifiable {}
+//extension TimingSession: Identifiable {}
 
 enum TimingSessionError: Error {
     case invoiceDurationExceedsUnbilledDuration

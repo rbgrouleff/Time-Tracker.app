@@ -25,7 +25,13 @@ final class Invoice {
         }
     }
 
-    init(_ project: Project, time: TimeInterval, paidAt: Date? = nil) {
+    init(_ project: Project, time: TimeInterval) {
+        self.project = project
+        self.time = time
+        self.paidAt = nil
+    }
+
+    init(_ project: Project, time: TimeInterval, paidAt: Date) {
         self.project = project
         self.time = time
         self.paidAt = paidAt

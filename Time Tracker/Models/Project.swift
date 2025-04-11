@@ -61,7 +61,6 @@ final class Project {
         (), ProjectError
     > {
         var duration = duration
-
         var changes: [TimingSession: Duration] = [:]
 
         for session in unbilledTimingSessions {
