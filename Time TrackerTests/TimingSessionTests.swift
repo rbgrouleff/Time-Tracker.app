@@ -149,4 +149,21 @@ import Testing
                 - Duration.seconds(600)
         )
     }
+    
+    @Test func invoicingNegativeDuration() async throws {
+        let now = Date.now
+        let timingSession = TimingSession(
+            project: project,
+            startedAt: now,
+            stoppedAt: Date(timeInterval: 3600, since: now)
+        )
+        
+        timingSession.invoicedDuration = Duration.seconds(600)
+
+        _ = timingSession.invoiceDuration(Duration.seconds(600) * -1)
+
+        #expect(
+            timingSession.invoicedDuration == Duration.zero
+        )
+    }
 }
