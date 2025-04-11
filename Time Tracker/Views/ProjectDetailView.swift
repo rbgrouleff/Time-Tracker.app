@@ -35,9 +35,9 @@ private struct ProjectDetailContentView: View {
             HStack {
                 VStack(alignment: .leading) {
                     Text("Unbilled time").font(.headline)
-
+                    
                     Text(
-                        project.unbilledTime,
+                        project.unbilledDuration,
                         format: .units(
                             allowed: [.hours, .minutes],
                             width: .narrow,
@@ -45,8 +45,15 @@ private struct ProjectDetailContentView: View {
                         )
                     )
                 }
-
+                
                 Spacer()
+                
+                VStack {
+                    Button {
+                    } label: {
+                        Text("Create invoice")
+                    }
+                }
             }
             .padding()
 
@@ -60,11 +67,11 @@ private struct ProjectTabView: View {
 
     var body: some View {
         TabView {
-            Tab("Timing sessions", systemImage: "timer") {
-                TimingSessionTableView(timingSessions: project.timingSessions)
+            Tab("Unbilled sessions", systemImage: "timer") {
+                TimingSessionTableView(timingSessions: project.unbilledTimingSessions)
             }
-            Tab("Billing", systemImage: "wallet.bifold") {
-                Text("Billing view - Shows Unbilled hours, Billed hours, more?")
+            Tab("Invoices", systemImage: "wallet.bifold") {
+                Text("Invoices")
             }
         }
     }
