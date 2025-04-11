@@ -44,9 +44,14 @@ final class Project {
         let invoice = Invoice(self, time: time)
         switch updateTimingSessions(Duration.seconds(time)) {
         case .success(()):
-            invoices.append(invoice)
+            if let modelContext {
+                modelContext.insert(invoice)
+            }
             return .success(invoice)
         case .failure(let err):
+            if let modelContext {
+                modelContext.delete(invoice)
+            }
             return .failure(err)
         }
 
