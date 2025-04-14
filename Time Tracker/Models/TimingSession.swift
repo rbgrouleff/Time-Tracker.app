@@ -14,8 +14,16 @@ final class TimingSession {
     
     var startedAt: Date
     var stoppedAt: Date?
-    
-    var invoicedDuration: Duration
+    var invoicedTime: TimeInterval
+
+    var invoicedDuration: Duration {
+        get {
+            Duration.seconds(invoicedTime)
+        }
+        set(d) {
+            invoicedTime = TimeInterval(d.components.seconds)
+        }
+    }
     
     var isRunning: Bool {
         stoppedAt == nil
@@ -43,26 +51,27 @@ final class TimingSession {
         "Started: \(startedAt), stopped: \(String(describing: stoppedAt))"
     }
     
-    init(
+    convenience init(
         project: Project,
         startedAt: Date,
     ) {
-        self.project = project
-        self.startedAt = startedAt
-        self.stoppedAt = nil
-        self.invoicedDuration = Duration.zero
+        self.init(project: project, startedAt: startedAt, stoppedAt: nil, invoicedDuration: Duration.zero)
+    }
+    
+    convenience init(project: Project, startedAt: Date, stoppedAt: Date) {
+        self.init(project: project, startedAt: startedAt, stoppedAt: stoppedAt, invoicedDuration: Duration.zero)
     }
     
     init(
         project: Project,
         startedAt: Date,
-        stoppedAt: Date,
+        stoppedAt: Date?,
         invoicedDuration: Duration
     ) {
         self.project = project
         self.startedAt = startedAt
         self.stoppedAt = stoppedAt
-        self.invoicedDuration = invoicedDuration
+        self.invoicedTime = TimeInterval(invoicedDuration.components.seconds)
     }
     
     func stop() {

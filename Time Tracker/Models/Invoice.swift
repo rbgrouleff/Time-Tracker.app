@@ -24,14 +24,16 @@ final class Invoice {
             }
         }
     }
-
-    init(_ project: Project, time: TimeInterval) {
-        self.project = project
-        self.time = time
-        self.paidAt = nil
+    
+    var duration: Duration {
+        Duration.seconds(time)
     }
 
-    init(_ project: Project, time: TimeInterval, paidAt: Date) {
+    convenience init(_ project: Project, time: TimeInterval) {
+        self.init(project, time: time, paidAt: nil)
+    }
+
+    init(_ project: Project, time: TimeInterval, paidAt: Date?) {
         self.project = project
         self.time = time
         self.paidAt = paidAt
