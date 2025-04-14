@@ -47,6 +47,7 @@ final class Project {
             if let modelContext {
                 modelContext.insert(invoice)
             }
+            invoices.append(invoice)
             return .success(invoice)
         case .failure(let err):
             if let modelContext {
