@@ -48,7 +48,7 @@ import Testing
         ]
         project.timingSessions.append(timingSessions.first!)
 
-        let _ = project.createInvoice(time: 60)
+        let _ = project.createInvoice(time: 60, date: .now, due: .now, number: 1)
 
         #expect(project.unbilledTimingSessions.elementsEqual(timingSessions))
     }
@@ -68,7 +68,7 @@ import Testing
         ]
         project.timingSessions.append(timingSessions.first!)
 
-        let _ = project.createInvoice(time: 3600)
+        let _ = project.createInvoice(time: 3600, date: .now, due: .now, number: 1)
 
         #expect(project.unbilledTimingSessions.isEmpty)
     }
@@ -91,7 +91,7 @@ import Testing
         
         #expect(project.unbilledTimingSessions.elementsEqual(project.timingSessions))
 
-        _ = project.createInvoice(time: 3600)
+        _ = project.createInvoice(time: 3600, date: .now, due: .now, number: 1)
 
         #expect(
             project.unbilledTimingSessions.elementsEqual([
@@ -105,7 +105,7 @@ import Testing
     {
         let project = Project(name: "Test project", client: client)
 
-        let result = project.createInvoice(time: 10)
+        let result = project.createInvoice(time: 10, date: .now, due: .now, number: 1)
 
         #expect(result == .failure(.insufficientUnbilledTime))
     }
@@ -121,7 +121,7 @@ import Testing
             )
         )
 
-        let result = project.createInvoice(time: 3600)
+        let result = project.createInvoice(time: 3600, date: .now, due: .now, number: 1)
 
         #expect(result == .success(project.invoices.last!))
     }
@@ -141,7 +141,7 @@ import Testing
 
         let time = 3600.0
 
-        let _ = project.createInvoice(time: time)
+        let _ = project.createInvoice(time: time, date: .now, due: .now, number: 1)
 
         #expect(
             project.unbilledDuration == unbilledDuration
@@ -165,7 +165,7 @@ import Testing
 
         let time = 3600.0
 
-        let _ = project.createInvoice(time: time)
+        let _ = project.createInvoice(time: time, date: .now, due: .now, number: 1)
         
         #expect(project.invoicedTimingSessions.contains(timingSession))
     }
@@ -187,7 +187,7 @@ import Testing
 
         let time = 3600.0
 
-        let _ = project.createInvoice(time: time)
+        let _ = project.createInvoice(time: time, date: .now, due: .now, number: 1)
         
         #expect(!project.unbilledTimingSessions.contains(timingSession))
     }
@@ -210,7 +210,7 @@ import Testing
 
         let time = 600.0
 
-        let _ = project.createInvoice(time: time)
+        let _ = project.createInvoice(time: time, date: .now, due: .now, number: 1)
         
         #expect(!project.invoicedTimingSessions.contains(timingSession))
     }
@@ -233,7 +233,7 @@ import Testing
 
         let time = 600.0
 
-        let _ = project.createInvoice(time: time)
+        let _ = project.createInvoice(time: time, date: .now, due: .now, number: 1)
         
         #expect(project.unbilledTimingSessions.contains(timingSession))
     }

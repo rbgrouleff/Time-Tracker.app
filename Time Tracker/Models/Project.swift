@@ -36,12 +36,12 @@ final class Project {
         self.client = client
     }
 
-    func createInvoice(time: TimeInterval) -> Result<Invoice, ProjectError> {
+    func createInvoice(time: TimeInterval, date: Date, due: Date, number: Int) -> Result<Invoice, ProjectError> {
         guard Duration.seconds(time) <= unbilledDuration else {
             return .failure(.insufficientUnbilledTime)
         }
 
-        let invoice = Invoice(self, time: time)
+        let invoice = Invoice(self, time: time, date: date, due: due, number: number)
         switch updateTimingSessions(Duration.seconds(time)) {
         case .success(()):
             if let modelContext {
