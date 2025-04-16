@@ -68,4 +68,5 @@ private struct DurationView: View {
 
 #Preview {
     TimingSessionTableView(timingSessions: [])
+        .environment(NavigationContext())
 }
