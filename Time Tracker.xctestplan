@@ -1,0 +1,37 @@
+{
+  "configurations" : [
+    {
+      "id" : "3F371648-2F52-4506-917E-331529910768",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:Time Tracker.xcodeproj",
+      "identifier" : "3A7CC4B92D4A885700745F58",
+      "name" : "Time Tracker"
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:Time Tracker.xcodeproj",
+        "identifier" : "3A7CC4CC2D4A885800745F58",
+        "name" : "Time TrackerTests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:Time Tracker.xcodeproj",
+        "identifier" : "3A7CC4D62D4A885800745F58",
+        "name" : "Time TrackerUITests"
+      }
+    }
+  ],
+  "version" : 1
+}
