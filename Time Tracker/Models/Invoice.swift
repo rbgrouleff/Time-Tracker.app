@@ -19,7 +19,7 @@ final class Invoice {
     var paidAt: Date?
 
     var year: String
-    var number: String
+    var number: Int
 
     var isPaid: Bool {
         get {
@@ -66,7 +66,24 @@ final class Invoice {
         self.date = date
         self.due = due
         self.paidAt = paidAt
-        self.number = number.formatted()
+        self.number = number
         self.year = date.formatted(.dateTime.year())
+    }
+    
+    static func nextNumber(modelContext: ModelContext, date: Date) -> Result<Int, Error> {
+        let year = date.formatted(.dateTime.year())
+        var descriptor = FetchDescriptor<Invoice>(predicate: #Predicate { $0.year == year }, sortBy: [.init(\.number, order: .reverse)])
+        descriptor.fetchLimit = 1
+        guard let invoices = try? modelContext.fetch(descriptor) else {
+            return .failure(.lookupFailed)
+        }
+        guard let last = invoices.first else {
+            return .success(1)
+        }
+        return .success(last.number + 1)
+    }
+    
+    enum Error: Swift.Error {
+        case lookupFailed
     }
 }
