@@ -63,6 +63,12 @@ import Testing
         
         #expect(timingSession.stoppedAt == stoppedAt)
     }
+    
+    @Test func unbilledDurationIsZeroWhileRunning() async throws {
+        let timingSession = TimingSession(project: project, startedAt: Date(timeInterval: -3600, since: .now))
+        
+        #expect(timingSession.unbilledDuration == .zero)
+    }
 
     @Test func invoicingARunningSessionFails() async throws {
         let timingSession = TimingSession(project: project, startedAt: Date.now)

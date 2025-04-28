@@ -44,7 +44,11 @@ final class TimingSession {
     }
     
     var unbilledDuration: Duration {
-        duration - invoicedDuration
+        if isRunning {
+            .zero
+        } else {
+            duration - invoicedDuration
+        }
     }
     
     var description: String {
