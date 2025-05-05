@@ -27,7 +27,7 @@ final class Invoice {
         }
         set(paid) {
             if paidAt == nil && paid {
-                paidAt = Date.now
+                paidAt = .now
             }
         }
     }

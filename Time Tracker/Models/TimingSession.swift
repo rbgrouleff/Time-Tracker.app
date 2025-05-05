@@ -30,7 +30,7 @@ final class TimingSession {
     }
     
     var isUnbilled: Bool {
-        unbilledDuration > Duration.zero
+        unbilledDuration > .zero || isRunning
     }
     
     var duration: Duration {
@@ -59,11 +59,11 @@ final class TimingSession {
         project: Project,
         startedAt: Date,
     ) {
-        self.init(project: project, startedAt: startedAt, stoppedAt: nil, invoicedDuration: Duration.zero)
+        self.init(project: project, startedAt: startedAt, stoppedAt: nil, invoicedDuration: .zero)
     }
     
     convenience init(project: Project, startedAt: Date, stoppedAt: Date) {
-        self.init(project: project, startedAt: startedAt, stoppedAt: stoppedAt, invoicedDuration: Duration.zero)
+        self.init(project: project, startedAt: startedAt, stoppedAt: stoppedAt, invoicedDuration: .zero)
     }
     
     init(
@@ -82,7 +82,7 @@ final class TimingSession {
         guard stoppedAt == nil else {
             return
         }
-        self.stoppedAt = Date.now
+        self.stoppedAt = .now
     }
     
     // Returns what remains of the given duration after invoicing as much as possible
@@ -92,7 +92,7 @@ final class TimingSession {
         }
         if durationToInvoice <= unbilledDuration {
             invoicedDuration += durationToInvoice
-            return .success(Duration.zero)
+            return .success(.zero)
         } else {
             let difference = durationToInvoice - unbilledDuration
             invoicedDuration = duration

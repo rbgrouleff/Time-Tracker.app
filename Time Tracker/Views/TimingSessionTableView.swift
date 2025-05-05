@@ -63,7 +63,7 @@ private struct DurationView: View {
     let client = Client(name: "Client")
     let project = Project(name: "Project", client: client)
     let time = Time()
-    DurationView(timingSession: TimingSession(project: project, startedAt: Date()), time: time)
+    RunningDurationView(timingSession: TimingSession(project: project, startedAt: .now), time: time)
 }
 
 #Preview {

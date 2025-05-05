@@ -74,7 +74,7 @@ private struct TimingSessionButton: View {
         if let project = navigationContext.selectedProject {
             let timingSession = TimingSession(
                 project: project,
-                startedAt: Date.now
+                startedAt: .now
             )
             project.timingSessions.append(timingSession)
             modelContext.insert(timingSession)
