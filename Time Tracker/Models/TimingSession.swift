@@ -34,13 +34,13 @@ final class TimingSession {
     }
     
     var duration: Duration {
-        let interval =
-        if let stoppedAt {
-            DateInterval(start: startedAt, end: stoppedAt)
+        let timeInterval = if let stoppedAt {
+            startedAt.distance(to: stoppedAt)
         } else {
-            DateInterval(start: startedAt, end: Date.now)
+            startedAt.distance(to: .now)
         }
-        return Duration.seconds(interval.duration)
+
+        return Duration.seconds(timeInterval)
     }
     
     var unbilledDuration: Duration {
