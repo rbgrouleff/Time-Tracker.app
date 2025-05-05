@@ -32,13 +32,20 @@ struct TimingSessionTableView: View {
                 }
             }
             TableColumn("Duration") { timingSession in
-                DurationView(timingSession: timingSession, time: time)
+                RunningDurationView(timingSession: timingSession, time: time)
+            }
+            TableColumn("Unbilled duration") { timingSession in
+                if timingSession.isRunning {
+                    Text("-")
+                } else {
+                    Text(timingSession.unbilledDuration, format: .units(allowed: [.hours, .minutes, .seconds], width: .narrow, zeroValueUnits: .show(length: 2)))
+                }
             }
         }
     }
 }
 
-private struct DurationView: View {
+private struct RunningDurationView: View {
     var timingSession: TimingSession
     var time: Time
     @State private var duration: Duration
