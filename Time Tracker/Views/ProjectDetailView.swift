@@ -9,11 +9,15 @@ import SwiftUI
 
 struct ProjectDetailView: View {
     var project: Project?
+    @State private var isInvoiceEditorPresented = false
 
     var body: some View {
         if let project {
-            ProjectDetailContentView(project: project)
+            ProjectDetailContentView(project: project, isInvoiceEditorPresented: $isInvoiceEditorPresented)
                 .navigationTitle("\(project.name)")
+                .sheet(isPresented: $isInvoiceEditorPresented) {
+                    InvoiceEditor(project: project)
+                }
         } else {
             ContentUnavailableView(
                 "Select a project",
@@ -25,6 +29,7 @@ struct ProjectDetailView: View {
 
 private struct ProjectDetailContentView: View {
     var project: Project
+    @Binding var isInvoiceEditorPresented: Bool
 
     var body: some View {
         VStack {
@@ -50,6 +55,7 @@ private struct ProjectDetailContentView: View {
                 
                 VStack {
                     Button {
+                        isInvoiceEditorPresented = true
                     } label: {
                         Text("Create invoice")
                     }
@@ -71,7 +77,8 @@ private struct ProjectTabView: View {
                 TimingSessionTableView(timingSessions: project.unbilledTimingSessions)
             }
             Tab("Invoices", systemImage: "wallet.bifold") {
-                Text("Invoices")
+                @Bindable var project = project
+                InvoiceTableView(invoices: $project.invoices)
             }
         }
     }
@@ -96,7 +103,7 @@ private struct ProjectTabView: View {
 
 #Preview {
     ProjectDetailContentView(
-        project: Project(name: "Project", client: Client(name: "Client"))
+        project: Project(name: "Project", client: Client(name: "Client")), isInvoiceEditorPresented: .constant(false)
     )
     .environment(NavigationContext())
 }
