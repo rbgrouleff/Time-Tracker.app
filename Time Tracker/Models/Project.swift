@@ -36,7 +36,7 @@ final class Project {
         self.client = client
     }
 
-    func createInvoice(time: TimeInterval, date: Date, due: Date, number: Int) -> Result<Invoice, ProjectError> {
+    func createInvoice(time: TimeInterval, date: Date, due: Date, number: Int) -> Result<Invoice, Error> {
         guard Duration.seconds(time) <= unbilledDuration else {
             return .failure(.insufficientUnbilledTime)
         }
@@ -59,7 +59,7 @@ final class Project {
     }
 
     private func updateTimingSessions(_ duration: Duration) -> Result<
-        (), ProjectError
+        (), Error
     > {
         var duration = duration
         var changes: [TimingSession: Duration] = [:]
@@ -95,9 +95,9 @@ final class Project {
             _ = session.invoiceDuration(duration * -1)
         }
     }
-}
-
-enum ProjectError: Error {
-    case insufficientUnbilledTime
-    case invoicingFailed
+    
+    enum Error: Swift.Error {
+        case insufficientUnbilledTime
+        case invoicingFailed
+    }
 }
