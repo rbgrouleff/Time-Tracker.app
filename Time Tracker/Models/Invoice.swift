@@ -31,6 +31,10 @@ final class Invoice {
             }
         }
     }
+    
+    var isOverdue: Bool {
+        !isPaid && due < .now
+    }
 
     var duration: Duration {
         Duration.seconds(time)
@@ -85,5 +89,6 @@ final class Invoice {
     
     enum Error: Swift.Error {
         case lookupFailed
+        case createFailed
     }
 }
