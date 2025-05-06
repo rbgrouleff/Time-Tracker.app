@@ -17,12 +17,7 @@ final class TimingSession {
     var invoicedTime: TimeInterval
 
     var invoicedDuration: Duration {
-        get {
-            Duration.seconds(invoicedTime)
-        }
-        set(d) {
-            invoicedTime = TimeInterval(d.components.seconds)
-        }
+        Duration.seconds(invoicedTime)
     }
     
     var isRunning: Bool {
@@ -34,21 +29,11 @@ final class TimingSession {
     }
     
     var duration: Duration {
-        let timeInterval = if let stoppedAt {
-            startedAt.distance(to: stoppedAt)
-        } else {
-            startedAt.distance(to: .now)
-        }
-
-        return Duration.seconds(timeInterval)
+        return Duration.seconds(time)
     }
     
     var unbilledDuration: Duration {
-        if isRunning {
-            .zero
-        } else {
-            duration - invoicedDuration
-        }
+        Duration.seconds(unbilledTime)
     }
     
     var description: String {
@@ -86,17 +71,33 @@ final class TimingSession {
     }
     
     // Returns what remains of the given duration after invoicing as much as possible
-    func invoiceDuration(_ durationToInvoice: Duration) -> Result<Duration, TimingSessionError> {
+    func invoiceDuration(_ timeToInvoice: TimeInterval) -> Result<TimeInterval, TimingSessionError> {
         guard !isRunning else {
             return .failure(.stillRunning)
         }
-        if durationToInvoice <= unbilledDuration {
-            invoicedDuration += durationToInvoice
+        if timeToInvoice <= unbilledTime {
+            invoicedTime += timeToInvoice
             return .success(.zero)
         } else {
-            let difference = durationToInvoice - unbilledDuration
-            invoicedDuration = duration
+            let difference = timeToInvoice - unbilledTime
+            invoicedTime = time
             return .success(difference)
+        }
+    }
+    
+    private var unbilledTime: TimeInterval {
+        if isRunning {
+            0
+        } else {
+            time - invoicedTime
+        }
+    }
+    
+    private var time: TimeInterval {
+        if let stoppedAt {
+            startedAt.distance(to: stoppedAt)
+        } else {
+            startedAt.distance(to: .now)
         }
     }
 }

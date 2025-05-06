@@ -42,7 +42,7 @@ final class Project {
         }
 
         let invoice = Invoice(self, time: time, date: date, due: due, number: number)
-        switch updateTimingSessions(Duration.seconds(time)) {
+        switch updateTimingSessions(time) {
         case .success(()):
             if let modelContext {
                 modelContext.insert(invoice)
@@ -58,23 +58,23 @@ final class Project {
 
     }
 
-    private func updateTimingSessions(_ duration: Duration) -> Result<
+    private func updateTimingSessions(_ time: TimeInterval) -> Result<
         (), Error
     > {
-        var duration = duration
-        var changes: [TimingSession: Duration] = [:]
+        var time = time
+        var changes: [TimingSession: TimeInterval] = [:]
 
         for session in unbilledTimingSessions {
             guard !session.isRunning else { break }
 
-            switch session.invoiceDuration(duration) {
-            case .success(let remainingDuration):
+            switch session.invoiceDuration(time) {
+            case .success(let remainingTime):
                 changes.updateValue(
-                    duration - remainingDuration,
+                    time - remainingTime,
                     forKey: session
                 )
-                duration = remainingDuration
-                if remainingDuration == Duration.zero {
+                time = remainingTime
+                if remainingTime == 0 {
                     break
                 }
             case .failure(_):
@@ -82,7 +82,7 @@ final class Project {
             }
         }
 
-        if duration == .zero {
+        if time == 0 {
             return .success(())
         } else {
             revertInvoicing(changes: changes)
@@ -90,9 +90,9 @@ final class Project {
         }
     }
 
-    private func revertInvoicing(changes: [TimingSession: Duration]) {
-        changes.reversed().forEach { (session, duration) in
-            _ = session.invoiceDuration(duration * -1)
+    private func revertInvoicing(changes: [TimingSession: TimeInterval]) {
+        changes.reversed().forEach { (session, time) in
+            _ = session.invoiceDuration(time * -1)
         }
     }
     
