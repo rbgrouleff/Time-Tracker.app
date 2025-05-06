@@ -106,4 +106,5 @@ private struct ProjectTabView: View {
         project: Project(name: "Project", client: Client(name: "Client")), isInvoiceEditorPresented: .constant(false)
     )
     .environment(NavigationContext())
+    .modelContainer(for: Client.self, inMemory: true)
 }

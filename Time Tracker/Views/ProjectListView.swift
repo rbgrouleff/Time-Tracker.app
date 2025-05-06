@@ -77,4 +77,6 @@ private struct AddProjectButton: View {
 
 #Preview {
     AddProjectButton(isActive: .constant(false))
+        .environment(NavigationContext())
+        .modelContainer(for: Client.self, inMemory: true)
 }

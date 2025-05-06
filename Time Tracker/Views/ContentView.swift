@@ -18,4 +18,6 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
+        .environment(NavigationContext())
+        .modelContainer(for: Client.self, inMemory: true)
 }
