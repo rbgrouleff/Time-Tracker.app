@@ -19,4 +19,13 @@ final class Client {
     init(name: String) {
         self.name = name
     }
+    
+    static func isNameAvailable(name: String, modelContext: ModelContext) -> Bool {
+        let descriptor = FetchDescriptor<Client>(predicate: #Predicate { $0.name == name })
+        return if let clientCount = try? modelContext.fetchCount(descriptor) {
+            clientCount == 0
+        } else {
+            false
+        }
+    }
 }
