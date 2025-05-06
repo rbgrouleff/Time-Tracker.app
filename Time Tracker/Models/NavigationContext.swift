@@ -9,8 +9,6 @@ import SwiftUI
 
 @Observable
 final class NavigationContext {
-    var columnVisibility: NavigationSplitViewVisibility = .automatic
-    var sidebarTitle = "Clients"
     var selectedClient: Client?
     var selectedProject: Project?
     var runningTimingSession: TimingSession?
