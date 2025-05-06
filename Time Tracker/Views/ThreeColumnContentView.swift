@@ -10,13 +10,13 @@ import SwiftUI
 struct ThreeColumnContentView: View {
     @Environment(NavigationContext.self) private var navigationContext:
         NavigationContext
+    
+    @State private var columnVisibility: NavigationSplitViewVisibility = .automatic
 
     var body: some View {
         @Bindable var navigationContext = navigationContext
-        NavigationSplitView(
-            columnVisibility: $navigationContext.columnVisibility
-        ) {
-            ClientListView().navigationTitle(navigationContext.sidebarTitle)
+        NavigationSplitView(columnVisibility: $columnVisibility) {
+            ClientListView().navigationTitle("Clients")
         } content: {
             ProjectListView(client: navigationContext.selectedClient)
                 .navigationTitle(navigationContext.contentListTitle)

@@ -17,7 +17,7 @@ struct ClientListView: View {
     var body: some View {
         @Bindable var navigationContext = navigationContext
         List(selection: $navigationContext.selectedClient) {
-            Section(navigationContext.sidebarTitle) {
+            Section("Clients") {
                 ClientList(clients: clients)
             }
         }
