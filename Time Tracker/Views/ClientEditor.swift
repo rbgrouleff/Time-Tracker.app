@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ClientEditor: View {
     let client: Client?
@@ -50,14 +51,19 @@ struct ClientEditor: View {
     
     private func save() {
         if let client {
-            client.name = name
+            if Client.isNameAvailable(name: name, modelContext: modelContext) {
+                client.name = name
+            }
         } else {
-            let newClient = Client(name: name)
-            modelContext.insert(newClient)
+            if Client.isNameAvailable(name: name, modelContext: modelContext) {
+                let newClient = Client(name: name)
+                modelContext.insert(newClient)
+            }
         }
     }
 }
 
 #Preview {
     ClientEditor(client: nil)
+        .modelContainer(for: Client.self, inMemory: true)
 }
