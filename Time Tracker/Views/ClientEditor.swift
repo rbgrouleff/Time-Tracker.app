@@ -22,7 +22,15 @@ struct ClientEditor: View {
     var body: some View {
         NavigationStack {
             Form {
-                TextField("Name", text: $name)
+                VStack {
+                    TextField("Name", text: $name).padding(.all)
+                    if !Client.isNameAvailable(name: name, modelContext: modelContext) {
+                        Text("Name is taken")
+                            .fontWeight(.light)
+                            .font(.footnote)
+                            .foregroundStyle(.red)
+                    }
+                }
             }
             .toolbar {
                 ToolbarItem(placement: .principal) {
@@ -36,7 +44,7 @@ struct ClientEditor: View {
                             dismiss()
                         }
                     }
-                    .disabled($name.wrappedValue == "")
+                    .disabled($name.wrappedValue == "" || !Client.isNameAvailable(name: name, modelContext: modelContext))
                 }
                 
                 ToolbarItem(placement: .cancellationAction) {
