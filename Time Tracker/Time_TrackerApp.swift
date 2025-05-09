@@ -43,6 +43,10 @@ struct Time_TrackerApp: App {
         #if os(macOS)
             .commands {
                 SidebarCommands()
+                
+                CommandMenu("Project") {
+                    TimingSessionButtonView().environment(navigationContext)
+                }
             }
         #endif
     }
