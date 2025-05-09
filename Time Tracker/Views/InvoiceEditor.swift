@@ -58,7 +58,7 @@ struct InvoiceEditor: View {
                                         hours -= 1
                                     }
                                 }
-                            )
+                            ).labelsHidden()
                         }
                         if project.unbilledDuration < .seconds(hours * 3600) {
                             Text("Not enough unbilled hours")
