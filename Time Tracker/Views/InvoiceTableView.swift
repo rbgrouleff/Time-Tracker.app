@@ -10,10 +10,10 @@ import SwiftUI
 struct InvoiceTableView: View {
     @Binding var invoices: [Invoice]
 
-    @State var foo = false
+    @State var selectedInvoiceID: Invoice.ID?
 
     var body: some View {
-        Table(invoices) {
+        Table(invoices, selection: $selectedInvoiceID) {
             TableColumn("#") { invoice in
                 Text("\(invoice.number)")
             }
