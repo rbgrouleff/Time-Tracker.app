@@ -12,6 +12,8 @@ final class NavigationContext {
     var selectedClient: Client?
     var selectedProject: Project?
     var runningTimingSession: TimingSession?
+    
+    var isTimingSessionEditorPresented = false
 
     var selectedTimingSession: TimingSession.ID? {
         get {

@@ -46,6 +46,7 @@ struct Time_TrackerApp: App {
                 
                 CommandMenu("Project") {
                     TimingSessionButtonView().environment(navigationContext)
+                    TimingSessionEditorButtonView().environment(navigationContext)
                 }
             }
         #endif

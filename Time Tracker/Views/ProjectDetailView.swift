@@ -8,16 +8,25 @@
 import SwiftUI
 
 struct ProjectDetailView: View {
+    @Environment(NavigationContext.self) private var navigationContext
     var project: Project?
     @State private var isInvoiceEditorPresented = false
+    @Binding var isTimingSessionEditorPresented: Bool
 
     var body: some View {
+        @Bindable var navigationContext = navigationContext
         if let project {
-            ProjectDetailContentView(project: project, isInvoiceEditorPresented: $isInvoiceEditorPresented)
-                .navigationTitle("\(project.name)")
-                .sheet(isPresented: $isInvoiceEditorPresented) {
-                    InvoiceEditor(project: project)
-                }
+            ProjectDetailContentView(
+                project: project,
+                isInvoiceEditorPresented: $isInvoiceEditorPresented
+            )
+            .navigationTitle("\(project.name)")
+            .sheet(isPresented: $isInvoiceEditorPresented) {
+                InvoiceEditor(project: project)
+            }
+            .sheet(isPresented: $isTimingSessionEditorPresented) {
+                TimingSessionEditor(project: project)
+            }
         } else {
             ContentUnavailableView(
                 "Select a project",
@@ -40,20 +49,17 @@ private struct ProjectDetailContentView: View {
             HStack {
                 VStack(alignment: .leading) {
                     Text("Unbilled time").font(.headline)
-                    
+
                     Text(
                         project.unbilledDuration,
-                        format: .units(
-                            allowed: [.hours, .minutes],
-                            width: .narrow,
-                            zeroValueUnits: .show(length: 2)
-                        )
+                        format: .time(pattern: .hourMinuteSecond)
                     )
                 }
-                
+
                 Spacer()
-                
-                VStack {
+
+                VStack(alignment: .trailing) {
+                    TimingSessionEditorButtonView()
                     Button {
                         isInvoiceEditorPresented = true
                     } label: {
@@ -74,7 +80,9 @@ private struct ProjectTabView: View {
     var body: some View {
         TabView {
             Tab("Unbilled sessions", systemImage: "timer") {
-                TimingSessionTableView(timingSessions: project.unbilledTimingSessions)
+                TimingSessionTableView(
+                    timingSessions: project.unbilledTimingSessions
+                )
             }
             Tab("Invoices", systemImage: "wallet.bifold") {
                 @Bindable var project = project
@@ -85,9 +93,10 @@ private struct ProjectTabView: View {
 }
 
 #Preview {
+    @Previewable @State var isTimingSessionEditorPresented = false
     let project = Project(name: "Project", client: Client(name: "Client"))
     let navigationContext = NavigationContext()
-    ProjectDetailView(project: project)
+    ProjectDetailView(project: project, isTimingSessionEditorPresented: $isTimingSessionEditorPresented)
         .environment(navigationContext)
         .onAppear {
             navigationContext.selectedProject = project
@@ -103,7 +112,8 @@ private struct ProjectTabView: View {
 
 #Preview {
     ProjectDetailContentView(
-        project: Project(name: "Project", client: Client(name: "Client")), isInvoiceEditorPresented: .constant(false)
+        project: Project(name: "Project", client: Client(name: "Client")),
+        isInvoiceEditorPresented: .constant(false)
     )
     .environment(NavigationContext())
     .modelContainer(for: Client.self, inMemory: true)

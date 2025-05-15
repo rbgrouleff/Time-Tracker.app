@@ -23,7 +23,7 @@ struct ThreeColumnContentView: View {
                 .navigationTitle(navigationContext.contentListTitle)
                 .environment(navigationContext)
         } detail: {
-            ProjectDetailView(project: navigationContext.selectedProject)
+            ProjectDetailView(project: navigationContext.selectedProject, isTimingSessionEditorPresented: $navigationContext.isTimingSessionEditorPresented)
                 .environment(navigationContext)
                 .toolbar {
                     HStack {
