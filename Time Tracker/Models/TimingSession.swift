@@ -28,7 +28,7 @@ final class TimingSession {
         unbilledDuration > .zero || isRunning
     }
     
-    var isPartiallyBilled: Bool {
+    var isPartiallyInvoiced: Bool {
         invoicedTime != 0
     }
     

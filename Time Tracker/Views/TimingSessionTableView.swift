@@ -73,14 +73,14 @@ struct TimingSessionTableView: View {
                             delete(timingSession: timingSession)
                         }
                     }
-                    .disabled(timingSession.isPartiallyBilled)
+                    .disabled(timingSession.isPartiallyInvoiced)
                 }
             }
         }
     }
 
     private func delete(timingSession: TimingSession) {
-        if !timingSession.isPartiallyBilled {
+        if !timingSession.isPartiallyInvoiced {
             timingSession.project.timingSessions.removeAll(where: {
                 $0 == timingSession
             })
