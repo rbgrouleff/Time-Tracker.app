@@ -28,6 +28,10 @@ final class TimingSession {
         unbilledDuration > .zero || isRunning
     }
     
+    var isPartiallyBilled: Bool {
+        invoicedTime != 0
+    }
+    
     var duration: Duration {
         return Duration.seconds(time)
     }

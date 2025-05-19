@@ -11,6 +11,7 @@ import SwiftUI
 struct TimingSessionTableView: View {
     @Environment(NavigationContext.self) private var navigationContext:
         NavigationContext
+    @Environment(\.modelContext) private var modelContext
     var timingSessions: [TimingSession]
 
     init(timingSessions: [TimingSession]) {
@@ -61,6 +62,29 @@ struct TimingSessionTableView: View {
                     )
                 }
             }
+        }
+        .contextMenu(forSelectionType: TimingSession.ID.self) { items in
+            if items.count == 1 {
+                if let timingSession = timingSessions.first(where: {
+                    $0.id == items.first!
+                }) {
+                    Button("Delete", role: .destructive) {
+                        withAnimation {
+                            delete(timingSession: timingSession)
+                        }
+                    }
+                    .disabled(timingSession.isPartiallyBilled)
+                }
+            }
+        }
+    }
+
+    private func delete(timingSession: TimingSession) {
+        if !timingSession.isPartiallyBilled {
+            timingSession.project.timingSessions.removeAll(where: {
+                $0 == timingSession
+            })
+            modelContext.delete(timingSession)
         }
     }
 }

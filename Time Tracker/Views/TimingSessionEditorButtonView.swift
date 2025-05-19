@@ -13,7 +13,9 @@ struct TimingSessionEditorButtonView: View {
     var body: some View {
         Button("Add timing session") {
             navigationContext.isTimingSessionEditorPresented = true
-        }.disabled(navigationContext.selectedProject == nil)
+        }
+        .keyboardShortcut("t")
+        .disabled(navigationContext.selectedProject == nil)
     }
 }
 
