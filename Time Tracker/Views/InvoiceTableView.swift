@@ -9,10 +9,15 @@ import SwiftUI
 
 struct InvoiceTableView: View {
     @Binding var invoices: [Invoice]
-
-    @State var selectedInvoiceID: Invoice.ID?
+    @State var filterBy: KeyPath<Invoice, Bool>?
+    @State private var selectedInvoiceID: Invoice.ID?
 
     var body: some View {
+        let invoices = if let filterBy {
+            invoices.filter { $0[keyPath: filterBy] }
+        } else {
+            invoices
+        }
         Table(invoices, selection: $selectedInvoiceID) {
             TableColumn("#") { invoice in
                 Text("\(invoice.number)")
@@ -45,6 +50,24 @@ struct InvoiceTableView: View {
                 .toggleStyle(.checkbox)
             }
         }
+        .contextMenu(forSelectionType: Invoice.ID.self) { items in
+            if items.count == 1 {
+                if let invoice = invoices.first(where: {
+                    $0.id == items.first!
+                }) {
+                    Button("Mark unpaid") {
+                        withAnimation {
+                            markUnpaid(invoice: invoice)
+                        }
+                    }
+                    .disabled(!invoice.isPaid)
+                }
+            }
+        }
+    }
+
+    private func markUnpaid(invoice: Invoice) {
+        invoice.paidAt = nil
     }
 }
 
@@ -53,7 +76,7 @@ struct InvoiceTableView: View {
         name: "Test Project",
         client: Client(name: "Test Client")
     )
-    InvoiceTableView(invoices: $project.invoices)
+    InvoiceTableView(invoices: $project.invoices, filterBy: \.isPaid)
         .onAppear {
             project.timingSessions.append(
                 TimingSession(
