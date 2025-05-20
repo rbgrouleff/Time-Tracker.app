@@ -32,8 +32,12 @@ final class Invoice {
         }
     }
     
+    var isUnpaid: Bool {
+        !isPaid
+    }
+    
     var isOverdue: Bool {
-        !isPaid && due < .now
+        isUnpaid && due < .now
     }
 
     var duration: Duration {
