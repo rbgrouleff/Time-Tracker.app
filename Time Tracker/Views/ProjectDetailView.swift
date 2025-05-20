@@ -75,7 +75,7 @@ private struct ProjectDetailContentView: View {
 }
 
 private struct ProjectTabView: View {
-    var project: Project
+    @State var project: Project
 
     var body: some View {
         TabView {
@@ -84,9 +84,16 @@ private struct ProjectTabView: View {
                     timingSessions: project.unbilledTimingSessions
                 )
             }
+            
             Tab("Invoices", systemImage: "wallet.bifold") {
                 @Bindable var project = project
-                InvoiceTableView(invoices: $project.invoices)
+                Section("Unpaid") {
+                    InvoiceTableView(invoices: $project.invoices, filterBy: \.isUnpaid)
+                }
+                
+                Section("Paid") {
+                    InvoiceTableView(invoices: $project.invoices, filterBy: \.isPaid)
+                }
             }
         }
     }
@@ -96,11 +103,14 @@ private struct ProjectTabView: View {
     @Previewable @State var isTimingSessionEditorPresented = false
     let project = Project(name: "Project", client: Client(name: "Client"))
     let navigationContext = NavigationContext()
-    ProjectDetailView(project: project, isTimingSessionEditorPresented: $isTimingSessionEditorPresented)
-        .environment(navigationContext)
-        .onAppear {
-            navigationContext.selectedProject = project
-        }
+    ProjectDetailView(
+        project: project,
+        isTimingSessionEditorPresented: $isTimingSessionEditorPresented
+    )
+    .environment(navigationContext)
+    .onAppear {
+        navigationContext.selectedProject = project
+    }
 }
 
 #Preview {
