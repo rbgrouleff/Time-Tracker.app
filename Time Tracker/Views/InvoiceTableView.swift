@@ -43,7 +43,7 @@ struct InvoiceTableView: View {
                 Toggle(
                     "Paid",
                     isOn: $invoices[
-                        invoices.firstIndex(where: { $0 == invoice })!
+                        self.invoices.firstIndex(where: { $0 == invoice })!
                     ].isPaid
                 )
                 .labelsHidden()
