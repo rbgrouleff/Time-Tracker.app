@@ -31,7 +31,7 @@ private struct ProjectList: View {
         self.client = client
         let clientName = client.name
         let predicate = #Predicate<Project> { project in
-            project.client.name == clientName
+            project.client?.name == clientName
         }
         _projects = Query(filter: predicate)
     }

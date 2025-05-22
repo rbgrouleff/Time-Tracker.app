@@ -10,7 +10,7 @@ import SwiftData
 
 @Model
 final class TimingSession {
-    var project: Project
+    var project: Project?
     
     var startedAt: Date
     var stoppedAt: Date?

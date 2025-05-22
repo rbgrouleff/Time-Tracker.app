@@ -32,7 +32,7 @@ struct ThreeColumnContentView: View {
                             .runningTimingSession
                         {
                             Text(
-                                "\(timingSession.project.client.name) » \(timingSession.project.name)"
+                                "\(timingSession.project?.client?.name ?? "NOPE!") » \(timingSession.project?.name ?? "NOPE!")"
                             )
                         }
                     }

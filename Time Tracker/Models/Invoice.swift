@@ -12,7 +12,8 @@ import SwiftData
 final class Invoice {
     #Unique<Invoice>([\.year, \.number])
 
-    var project: Project
+    var project: Project?
+
     var time: TimeInterval
     var date: Date
     var due: Date

@@ -81,7 +81,7 @@ struct TimingSessionTableView: View {
 
     private func delete(timingSession: TimingSession) {
         if !timingSession.isPartiallyInvoiced {
-            timingSession.project.timingSessions.removeAll(where: {
+            timingSession.project?.timingSessions.removeAll(where: {
                 $0 == timingSession
             })
             modelContext.delete(timingSession)

@@ -11,7 +11,7 @@ import SwiftData
 @Model
 final class Project {
     var name: String
-    var client: Client
+    var client: Client?
 
     @Relationship(deleteRule: .cascade, inverse: \TimingSession.project)
     var timingSessions = [TimingSession]()
