@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		3AAE455A2DE5A604001A7E81 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 3AAE45592DE5A5FB001A7E81 /* README.md */; };
+		3AAE455C2DE71A63001A7E81 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 3AAE455B2DE71A5D001A7E81 /* LICENSE */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		3A7CC4CE2D4A885800745F58 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -19,6 +24,8 @@
 /* Begin PBXFileReference section */
 		3A7CC4BA2D4A885700745F58 /* Time Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Time Tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A7CC4CD2D4A885800745F58 /* Time TrackerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Time TrackerTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3AAE45592DE5A5FB001A7E81 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		3AAE455B2DE71A5D001A7E81 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		3ADEF6722DBA4379009F4DE3 /* Time Tracker.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Time Tracker.xctestplan"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -56,6 +63,8 @@
 		3A7CC4B12D4A885700745F58 = {
 			isa = PBXGroup;
 			children = (
+				3AAE455B2DE71A5D001A7E81 /* LICENSE */,
+				3AAE45592DE5A5FB001A7E81 /* README.md */,
 				3ADEF6722DBA4379009F4DE3 /* Time Tracker.xctestplan */,
 				3A7CC4BC2D4A885700745F58 /* Time Tracker */,
 				3A7CC4D02D4A885800745F58 /* Time TrackerTests */,
@@ -164,6 +173,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3AAE455C2DE71A63001A7E81 /* LICENSE in Resources */,
+				3AAE455A2DE5A604001A7E81 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
