@@ -22,6 +22,8 @@ And you can register time invoiced to projects
 
 <img width="783" alt="invoices" src="https://github.com/user-attachments/assets/982a47e7-9984-4cba-ae16-62118501b96e" />
 
+And that is pretty much it.
+
 # No AI
 
 No AI has been used in the development of Time Tracker.
