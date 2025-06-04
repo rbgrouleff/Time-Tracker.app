@@ -28,6 +28,12 @@ And that is pretty much it.
 
 No AI has been used in the development of Time Tracker.
 
+# Development
+
+I welcome any pull requests, issues, suggestions, etc. Unless they are made using AI.
+
+If I deem AI has been used, I will close and / or reject it without any comment.
+
 # License
 
 MIT
