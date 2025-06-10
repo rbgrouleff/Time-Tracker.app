@@ -33,6 +33,7 @@ struct Time_TrackerApp: App {
     }()
 
     @State private var navigationContext = NavigationContext()
+    @Environment(\.openWindow) private var openWindow
 
     var body: some Scene {
         WindowGroup {
@@ -43,12 +44,28 @@ struct Time_TrackerApp: App {
         #if os(macOS)
             .commands {
                 SidebarCommands()
-                
+                CommandGroup(replacing: CommandGroupPlacement.appInfo) {
+                    Button {
+                        openWindow(id: "about")
+                    } label: {
+                        Text("About Time Tracker")
+                    }
+                }
                 CommandMenu("Project") {
                     TimingSessionButtonView().environment(navigationContext)
-                    TimingSessionEditorButtonView().environment(navigationContext)
+                    TimingSessionEditorButtonView().environment(
+                        navigationContext
+                    )
                 }
             }
         #endif
+
+        Window("About Time Tracker", id: "about") {
+            AboutView().containerBackground(.regularMaterial, for: .window)
+                .toolbar(removing: .title)
+                .toolbarBackground(.hidden, for: .windowToolbar)
+        }.windowBackgroundDragBehavior(.enabled).windowResizability(
+            .contentSize
+        ).restorationBehavior(.disabled)
     }
 }
