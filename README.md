@@ -2,7 +2,7 @@
 
 # Time Tracker
 
-Time Tracker is the simplest macOS app for tracking time working for clients, I can imagine.
+Time Tracker is the simplest macOS app for tracking time working for clients, I can imagine. Read about, why I built it [on my website](https://nerdd.dk/2025/06/11/scratching-my-own-itch/).
 
 You can add clients:
 
